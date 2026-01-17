@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { NAVIGATION_ITEMS, APP_NAME } from "@/lib/constants";
+import { NAVIGATION_ITEMS } from "@/lib/constants";
 import { UserMenu } from "@/components/auth/user-menu";
 
 export function Header() {
