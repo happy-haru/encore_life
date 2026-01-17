@@ -3,7 +3,7 @@ export const APP_NAME = 'Encore Life';
 export const APP_SLOGAN = '경험이 빛나는 새로운 시작';
 
 // 네비게이션 메뉴
-export const MAIN_NAV = [
+export const NAVIGATION_ITEMS = [
     { label: '채용공고', href: '/jobs' },
     { label: '커뮤니티', href: '/community' },
     { label: '성공사례', href: '/success-stories' },

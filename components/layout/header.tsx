@@ -1,6 +1,8 @@
+"use client";
+
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { APP_NAME, MAIN_NAV } from "@/lib/constants";
+import { NAVIGATION_ITEMS, APP_NAME } from "@/lib/constants";
+import { UserMenu } from "@/components/auth/user-menu";
 
 export function Header() {
     return (
@@ -22,25 +24,20 @@ export function Header() {
 
                 {/* 데스크톱 네비게이션 */}
                 <nav className="hidden md:flex items-center space-x-6">
-                    {MAIN_NAV.map((item) => (
+                    {NAVIGATION_ITEMS.map((item) => (
                         <Link
                             key={item.href}
                             href={item.href}
-                            className="text-base font-medium text-foreground/80 transition-colors hover:text-primary"
+                            className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
                         >
                             {item.label}
                         </Link>
                     ))}
                 </nav>
 
-                {/* CTA 버튼 */}
-                <div className="flex items-center space-x-4">
-                    <Button variant="ghost" className="hidden md:inline-flex">
-                        로그인
-                    </Button>
-                    <Button className="bg-secondary hover:bg-secondary/90">
-                        시작하기
-                    </Button>
+                {/* 우측 버튼 섹션 */}
+                <div className="flex items-center gap-4">
+                    <UserMenu />
                 </div>
             </div>
         </header>

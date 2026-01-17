@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { APP_NAME, APP_SLOGAN, MAIN_NAV } from "@/lib/constants";
+import { APP_NAME, APP_SLOGAN, NAVIGATION_ITEMS } from "@/lib/constants";
 
 export function Footer() {
     return (
@@ -25,7 +25,7 @@ export function Footer() {
                     <div>
                         <h4 className="font-semibold mb-4">빠른 링크</h4>
                         <ul className="space-y-2">
-                            {MAIN_NAV.map((item) => (
+                            {NAVIGATION_ITEMS.map((item) => (
                                 <li key={item.href}>
                                     <Link
                                         href={item.href}
