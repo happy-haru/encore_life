@@ -43,12 +43,12 @@ export function UserMenu() {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="relative h-10 w-10 rounded-full">
+                <Button variant="ghost" className="relative h-10 w-10 rounded-full overflow-hidden">
                     {avatarUrl ? (
                         <img
                             src={avatarUrl}
                             alt={displayName}
-                            className="h-10 w-10 rounded-full"
+                            className="h-full w-full object-cover"
                         />
                     ) : (
                         <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-primary-foreground">
