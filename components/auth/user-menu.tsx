@@ -43,7 +43,7 @@ export function UserMenu() {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="relative h-10 w-10 rounded-full overflow-hidden">
+                <Button variant="ghost" className="relative h-11 w-11 rounded-full overflow-hidden p-0 shrink-0 hover:scale-105 transition-transform">
                     {avatarUrl ? (
                         <img
                             src={avatarUrl}
