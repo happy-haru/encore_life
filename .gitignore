@@ -39,3 +39,11 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# testsprite
+/testsprite_tests/tmp/
+/testsprite_tests/*.html
+/testsprite_tests/*.json
+!/testsprite_tests/standard_prd.json
+!/testsprite_tests/testsprite_backend_test_plan.json
+!/testsprite_tests/testsprite_frontend_test_plan.json
