@@ -129,8 +129,10 @@ export default function CommunityPage() {
                         당신의 소중한 경험과 지혜를 나눠주세요.<br />
                         서로의 새로운 시작을 응원하는 따뜻한 공간이 되길 바랍니다.
                     </p>
-                    <Button size="lg" className="rounded-full px-8">
-                        첫 글 쓰러 가기
+                    <Button size="lg" className="rounded-full px-8" asChild>
+                        <Link href="/community/write">
+                            첫 글 쓰러 가기
+                        </Link>
                     </Button>
                 </div>
             </main>
