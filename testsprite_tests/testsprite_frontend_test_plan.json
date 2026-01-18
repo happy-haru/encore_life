@@ -1,0 +1,326 @@
+[
+  {
+    "id": "TC002",
+    "title": "Logout Functionality",
+    "description": "Ensure that the user is logged out properly and redirected to the main screen, and the header updates to non-authenticated state.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Log in with valid credentials."
+      },
+      {
+        "type": "action",
+        "description": "Click the logout button or perform logout action."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the user is redirected to the main screen."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify that the header changes to non-authenticated state (e.g., no profile image)."
+      }
+    ]
+  },
+  {
+    "id": "TC003",
+    "title": "Access Protected Routes as Unauthorized User",
+    "description": "Confirm that unauthorized users are redirected to the login page when attempting to access protected routes.",
+    "category": "security",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Ensure the user is logged out."
+      },
+      {
+        "type": "action",
+        "description": "Navigate directly to a protected route such as community dashboard or post creation page."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the user is redirected to the login page."
+      }
+    ]
+  },
+  {
+    "id": "TC004",
+    "title": "Create Community Post with Valid Data",
+    "description": "Verify that an authenticated user can create a new community post with all required fields and receive a confirmation toast, then is redirected to updated post list.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Log in as an authenticated user."
+      },
+      {
+        "type": "action",
+        "description": "Navigate to the post creation form."
+      },
+      {
+        "type": "action",
+        "description": "Fill in the title, content, and select a category."
+      },
+      {
+        "type": "action",
+        "description": "Submit the post creation form."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm a toast message appears confirming successful post creation."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify redirect to the updated post list displaying the new post."
+      }
+    ]
+  },
+  {
+    "id": "TC005",
+    "title": "Create Community Post with Missing Required Fields",
+    "description": "Ensure form submission is prevented when required fields are missing, and appropriate warning messages are shown.",
+    "category": "error handling",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Log in as an authenticated user."
+      },
+      {
+        "type": "action",
+        "description": "Navigate to the post creation form."
+      },
+      {
+        "type": "action",
+        "description": "Leave the title field empty, fill content and select category."
+      },
+      {
+        "type": "action",
+        "description": "Attempt to submit the form."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a warning message appears indicating title is required."
+      },
+      {
+        "type": "action",
+        "description": "Repeat with empty content and empty category fields to verify respective warnings."
+      }
+    ]
+  },
+  {
+    "id": "TC006",
+    "title": "Read Community Post Detail",
+    "description": "Verify that users can access a post detail page by URL and view correct content with formatted date display.",
+    "category": "functional",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to an existing post detail page using its URL."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify that the post title, content, and category are displayed correctly."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the post creation date is displayed using proper format or relative time."
+      }
+    ]
+  },
+  {
+    "id": "TC007",
+    "title": "Edit Community Post by Author",
+    "description": "Confirm that only post authors see edit and delete buttons and can successfully edit a post with updated data reflected immediately.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Log in as the author of an existing post."
+      },
+      {
+        "type": "action",
+        "description": "Navigate to the post detail page."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify that edit and delete buttons are visible."
+      },
+      {
+        "type": "action",
+        "description": "Click edit button and navigate to edit form."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm the form is pre-filled with the existing post data."
+      },
+      {
+        "type": "action",
+        "description": "Update title and content fields, then submit the edit form."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify that the updated post data is immediately reflected on the post detail page."
+      }
+    ]
+  },
+  {
+    "id": "TC008",
+    "title": "Edit Community Post Not Visible to Non-Authors",
+    "description": "Verify that users who are not the authors of a post do not see edit or delete buttons on the post detail page.",
+    "category": "security",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Log in as a user who is not the author of a specific post."
+      },
+      {
+        "type": "action",
+        "description": "Navigate to the post detail page."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify that edit and delete buttons are not visible."
+      }
+    ]
+  },
+  {
+    "id": "TC009",
+    "title": "Delete Post Confirmation and Redirect",
+    "description": "Check that deleting a post prompts a confirmation, deletes the post upon confirmation, and redirects the user back to the post list.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Log in as the post author."
+      },
+      {
+        "type": "action",
+        "description": "Navigate to the post detail page."
+      },
+      {
+        "type": "action",
+        "description": "Click the delete button."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a confirmation prompt appears."
+      },
+      {
+        "type": "action",
+        "description": "Confirm the deletion."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the post is removed and the user is redirected to the updated post list page."
+      }
+    ]
+  },
+  {
+    "id": "TC010",
+    "title": "Category Filtering Shows Correct Posts",
+    "description": "Verify that selecting a category filter displays only posts belonging to that category, and empty state appears if no posts exist.",
+    "category": "functional",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Log in as any authenticated user."
+      },
+      {
+        "type": "action",
+        "description": "Navigate to the community dashboard."
+      },
+      {
+        "type": "action",
+        "description": "Select a category filter from the list."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify that only posts associated with the selected category are displayed."
+      },
+      {
+        "type": "action",
+        "description": "Select a category with no posts."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify an empty state message indicating no posts is shown."
+      }
+    ]
+  },
+  {
+    "id": "TC011",
+    "title": "Loading Skeletons Display During Data Fetch",
+    "description": "Confirm that loading skeleton components are displayed on the UI during asynchronous data fetch operations to improve perceived performance.",
+    "category": "ui",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Initiate loading of the community dashboard posts or post detail page."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify that loading skeletons are visible prior to data being rendered."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify skeletons disappear once data is loaded."
+      }
+    ]
+  },
+  {
+    "id": "TC012",
+    "title": "404 and Error Pages for Invalid Routes and Post IDs",
+    "description": "Ensure that navigating to invalid post IDs or incorrect routes renders friendly 404 or error pages.",
+    "category": "error handling",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to an invalid or non-existent post ID via URL."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a friendly 404 or error page is displayed."
+      },
+      {
+        "type": "action",
+        "description": "Navigate to an invalid route under the community section."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a friendly 404 or error page is displayed."
+      }
+    ]
+  },
+  {
+    "id": "TC013",
+    "title": "Responsive Design Integrity on Mobile Viewports",
+    "description": "Verify that the community platform UI adapts seamlessly to mobile viewport sizes with no broken elements or usability issues.",
+    "category": "ui",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Use a mobile viewport or emulator to access various pages including dashboard, post detail, create and edit forms."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify all UI elements display correctly with no overlap, cut-offs, or broken layouts."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify responsive navigation and interactive elements function as expected on mobile."
+      }
+    ]
+  }
+]

@@ -4,7 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
-export async function createPost(formData: FormData) {
+export async function createPost(formData: FormData, options?: { skipRedirect?: boolean }) {
     const supabase = await createClient();
 
     const title = formData.get("title") as string;
@@ -17,13 +17,13 @@ export async function createPost(formData: FormData) {
         throw new Error("User not authenticated");
     }
 
-    const { error } = await supabase.from("posts").insert({
+    const { data, error } = await supabase.from("posts").insert({
         title,
         content,
         category,
         user_id: user.id,
         author_name: user.user_metadata.full_name || user.email?.split("@")[0] || "익명",
-    });
+    }).select().single();
 
     if (error) {
         console.error("Error creating post:", error);
@@ -32,6 +32,11 @@ export async function createPost(formData: FormData) {
 
     revalidatePath(`/community/${category}`);
     revalidatePath("/community"); // Revalidate main community page if we show recent posts there
+
+    if (options?.skipRedirect) {
+        return data;
+    }
+
     redirect(`/community/${category}`);
 }
 

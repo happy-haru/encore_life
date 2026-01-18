@@ -1,0 +1,271 @@
+{
+  "meta": {
+    "project": "Community Post Management System",
+    "date": "2026-01-15",
+    "prepared_by": "Software Development Manager"
+  },
+  "product_overview": "This system enables authenticated users to create, update, and delete community posts within categorized sections. Public users can browse posts by category or view individual post details. It safeguards content ownership and integrity using authentication and role-level security (RLS).",
+  "core_goals": [
+    "Enable authenticated users to create new posts with validation and secure author attribution.",
+    "Allow public users to browse posts by category and view post details.",
+    "Enforce security to prevent unauthorized updates or deletions of posts.",
+    "Provide robust error handling for scenarios like invalid inputs, unauthorized access, and system failures.",
+    "Ensure that UI reflects the most current data after create or update actions through effective cache invalidation and revalidation.",
+    "Optimize data fetching to avoid unnecessary payload size and hence improve performance."
+  ],
+  "key_features": [
+    "Authenticated post creation with input validation and server-side author attribution.",
+    "Public post retrieval filtered by category and individual post details retrieval.",
+    "Update and delete posts restricted to authenticated owners via database-enforced RLS and application logic.",
+    "Graceful error handling for cases such as authentication failures, data validation errors, non-existent post requests, and database connectivity issues.",
+    "Real-time data reflections through revalidation of community listing and detail pages after post creation and updates.",
+    "Use of TypeScript, Next.js, Supabase, PostgreSQL, and Tailwind CSS to build a performant, secure, and user-friendly web application."
+  ],
+  "user_flow_summary": [
+    "User visits community page and filters posts by category via getPostsByCategory API.",
+    "Authenticated user submits new post through createPost API; upon success, UI updates to show the new post without manual refresh.",
+    "User selects a post to view details fetched via getPostById; if post does not exist, redirected to 404 page.",
+    "Authenticated user attempts to update or delete their own post; actions are validated against ownership and reflected on the UI after success.",
+    "Unauthorized attempts to post, update, or delete are blocked with error feedback displayed to the user."
+  ],
+  "validation_criteria": [
+    "Unauthenticated users receive \"User not authenticated\" error when attempting to create posts.",
+    "Attempts to update or delete posts by non-owners are denied by RLS, returning an error or resulting in no data changes.",
+    "Author name for posts is sourced from server session and cannot be spoofed from client input.",
+    "Empty or missing required fields (title, content) cause appropriate validation errors before database insertion.",
+    "Unknown categories are either rejected or ignored according to validation rules.",
+    "Failures due to database connection issues result in clear error messages shown to users.",
+    "Requests for non-existent posts result in 404 navigation in the frontend.",
+    "Post-creation and post-update actions trigger page revalidation to immediately reflect content changes in relevant views.",
+    "Data fetch requests optimized to prevent unnecessary heavy payloads, particularly by limiting fields selected in post listings."
+  ],
+  "code_summary": {
+    "tech_stack": [
+      "TypeScript",
+      "Next.js",
+      "Supabase",
+      "PostgreSQL",
+      "Tailwind CSS"
+    ],
+    "features": [
+      {
+        "name": "createPost",
+        "description": "Creates a new community post. Requires authentication. Validates input and saves to Supabase.",
+        "files": [
+          "lib/actions/post.ts"
+        ],
+        "api_doc": {
+          "openapi": "3.0.0",
+          "paths": {
+            "/createPost": {
+              "post": {
+                "summary": "Create a new post",
+                "requestBody": {
+                  "content": {
+                    "multipart/form-data": {
+                      "schema": {
+                        "type": "object",
+                        "properties": {
+                          "title": {
+                            "type": "string"
+                          },
+                          "content": {
+                            "type": "string"
+                          },
+                          "category": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "title",
+                          "content",
+                          "category"
+                        ]
+                      }
+                    }
+                  }
+                },
+                "responses": {
+                  "303": {
+                    "description": "Redirects to the category page on success"
+                  },
+                  "500": {
+                    "description": "Server error"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      {
+        "name": "getPostsByCategory",
+        "description": "Fetches a list of posts filtered by category. Publicly accessible.",
+        "files": [
+          "lib/actions/post.ts"
+        ],
+        "api_doc": {
+          "openapi": "3.0.0",
+          "paths": {
+            "/getPostsByCategory": {
+              "get": {
+                "summary": "Get posts by category",
+                "parameters": [
+                  {
+                    "name": "category",
+                    "in": "query",
+                    "required": true,
+                    "schema": {
+                      "type": "string"
+                    }
+                  }
+                ],
+                "responses": {
+                  "200": {
+                    "description": "List of posts"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      {
+        "name": "getPostById",
+        "description": "Fetches a single post by its ID. Publicly accessible.",
+        "files": [
+          "lib/actions/post.ts"
+        ],
+        "api_doc": {
+          "openapi": "3.0.0",
+          "paths": {
+            "/getPostById": {
+              "get": {
+                "summary": "Get post by ID",
+                "parameters": [
+                  {
+                    "name": "id",
+                    "in": "query",
+                    "required": true,
+                    "schema": {
+                      "type": "string",
+                      "format": "uuid"
+                    }
+                  }
+                ],
+                "responses": {
+                  "200": {
+                    "description": "Post details"
+                  },
+                  "404": {
+                    "description": "Post not found"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      {
+        "name": "updatePost",
+        "description": "Updates an existing post. Requires authentication and ownership (enforced by RLS & logic).",
+        "files": [
+          "lib/actions/post.ts"
+        ],
+        "api_doc": {
+          "openapi": "3.0.0",
+          "paths": {
+            "/updatePost": {
+              "post": {
+                "summary": "Update a post",
+                "parameters": [
+                  {
+                    "name": "id",
+                    "in": "query",
+                    "required": true,
+                    "schema": {
+                      "type": "string",
+                      "format": "uuid"
+                    }
+                  }
+                ],
+                "requestBody": {
+                  "content": {
+                    "multipart/form-data": {
+                      "schema": {
+                        "type": "object",
+                        "properties": {
+                          "title": {
+                            "type": "string"
+                          },
+                          "content": {
+                            "type": "string"
+                          },
+                          "category": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "responses": {
+                  "303": {
+                    "description": "Redirects to post detail on success"
+                  },
+                  "500": {
+                    "description": "Server error or permission denied"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      {
+        "name": "deletePost",
+        "description": "Deletes a post. Requires authentication and ownership.",
+        "files": [
+          "lib/actions/post.ts"
+        ],
+        "api_doc": {
+          "openapi": "3.0.0",
+          "paths": {
+            "/deletePost": {
+              "delete": {
+                "summary": "Delete a post",
+                "parameters": [
+                  {
+                    "name": "id",
+                    "in": "query",
+                    "required": true,
+                    "schema": {
+                      "type": "string",
+                      "format": "uuid"
+                    }
+                  },
+                  {
+                    "name": "category",
+                    "in": "query",
+                    "required": true,
+                    "schema": {
+                      "type": "string"
+                    }
+                  }
+                ],
+                "responses": {
+                  "200": {
+                    "description": "Post deleted"
+                  },
+                  "500": {
+                    "description": "Server error"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    ]
+  }
+}

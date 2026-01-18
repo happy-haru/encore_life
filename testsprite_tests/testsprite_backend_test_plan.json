@@ -1,0 +1,52 @@
+[
+  {
+    "id": "TC001",
+    "title": "createpost authenticated user success",
+    "description": "Test creating a new post with valid title, content, and category by an authenticated user. Verify the post is saved with correct author attribution and the response redirects to the category page."
+  },
+  {
+    "id": "TC002",
+    "title": "createpost unauthenticated user error",
+    "description": "Test creating a new post without authentication. Verify the system returns a 'User not authenticated' error and does not create the post."
+  },
+  {
+    "id": "TC003",
+    "title": "createpost validation errors for missing fields",
+    "description": "Test creating a new post with missing or empty required fields (title, content, category). Verify appropriate validation errors are returned and no post is created."
+  },
+  {
+    "id": "TC004",
+    "title": "getpostsbycategory valid category success",
+    "description": "Test fetching posts by a valid category. Verify the response returns a list of posts filtered by the specified category with optimized payload size."
+  },
+  {
+    "id": "TC005",
+    "title": "getpostbyid existing post success",
+    "description": "Test fetching a post by a valid existing post ID. Verify the response returns the correct post details."
+  },
+  {
+    "id": "TC006",
+    "title": "getpostbyid non existent post returns 404",
+    "description": "Test fetching a post by a non-existent post ID. Verify the system returns a 404 response and the frontend navigates to the 404 page."
+  },
+  {
+    "id": "TC007",
+    "title": "updatepost authenticated owner success",
+    "description": "Test updating an existing post by the authenticated owner with valid data. Verify the post is updated, ownership is enforced, and the response redirects to the post detail page."
+  },
+  {
+    "id": "TC008",
+    "title": "updatepost non owner or unauthenticated error",
+    "description": "Test updating a post by a user who is not the owner or without authentication. Verify the system denies the update with an error or no data change."
+  },
+  {
+    "id": "TC009",
+    "title": "deletepost authenticated owner success",
+    "description": "Test deleting a post by the authenticated owner with valid post ID and category. Verify the post is deleted and the response confirms deletion."
+  },
+  {
+    "id": "TC010",
+    "title": "deletepost non owner or unauthenticated error",
+    "description": "Test deleting a post by a user who is not the owner or without authentication. Verify the system denies the deletion with an error and the post remains."
+  }
+]
