@@ -1,5 +1,17 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+
+
+## Environment Setup
+
+This project uses [Supabase](https://supabase.com) for authentication and database.
+You need to set up the following environment variables in your `.env.local` file (for local development) and in your Vercel project settings (for deployment).
+
+```bash
+NEXT_PUBLIC_SUPABASE_URL=your-project-url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
+```
+
 ## Getting Started
 
 First, run the development server:
