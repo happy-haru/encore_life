@@ -3,10 +3,21 @@ import { createServerClient } from '@supabase/ssr'
 
 export async function createClient() {
     const cookieStore = await cookies()
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+    const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+
+    // 빌드 시 환경 변수가 없을 경우 에러 방지를 위한 처리
+    if (!supabaseUrl || !supabaseAnonKey) {
+        return createServerClient(
+            'https://placeholder.supabase.co',
+            'placeholder-key',
+            { cookies: { getAll: () => [], setAll: () => { } } }
+        )
+    }
 
     return createServerClient(
-        process.env.NEXT_PUBLIC_SUPABASE_URL!,
-        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+        supabaseUrl,
+        supabaseAnonKey,
         {
             cookies: {
                 getAll() {
