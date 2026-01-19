@@ -23,7 +23,8 @@ export function LikeButton({ postId, initialCount, initialIsLiked, isLoggedIn }:
     const handleToggle = async () => {
         if (!isLoggedIn) {
             if (confirm("로그인이 필요한 서비스입니다.\n로그인 페이지로 이동하시겠습니까?")) {
-                router.push("/auth/login");
+                const currentPath = window.location.pathname;
+                router.push(`/auth/login?next=${encodeURIComponent(currentPath)}`);
             }
             return;
         }

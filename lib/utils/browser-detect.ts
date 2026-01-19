@@ -38,7 +38,8 @@ export function openInExternalBrowser() {
     // For Android
     else if (/Android/i.test(navigator.userAgent)) {
         // Intent to open in external browser
-        window.location.href = `intent://${currentUrl.replace(/^https?:\/\//, '')}#Intent;scheme=https;action=android.intent.action.VIEW;end`;
+        const targetUrl = currentUrl.replace(/^https?:\/\//, '');
+        window.location.href = `intent://${targetUrl}#Intent;scheme=https;action=android.intent.action.VIEW;category=android.intent.category.BROWSABLE;package=com.android.chrome;end`;
     }
     // Fallback
     else {

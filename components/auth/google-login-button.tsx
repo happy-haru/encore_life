@@ -5,17 +5,22 @@ import { Button } from "@/components/ui/button";
 import { Chrome } from "lucide-react";
 import { useState } from "react";
 
-export function GoogleLoginButton() {
+export function GoogleLoginButton({ redirectTo }: { redirectTo?: string }) {
     const [isLoading, setIsLoading] = useState(false);
     const supabase = createClient();
 
     const handleGoogleLogin = async () => {
         try {
             setIsLoading(true);
+            const redirectUrl = new URL(`${window.location.origin}/auth/callback`);
+            if (redirectTo) {
+                redirectUrl.searchParams.set("next", redirectTo);
+            }
+
             const { error } = await supabase.auth.signInWithOAuth({
                 provider: "google",
                 options: {
-                    redirectTo: `${window.location.origin}/auth/callback`,
+                    redirectTo: redirectUrl.toString(),
                 },
             });
 
