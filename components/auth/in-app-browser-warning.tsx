@@ -1,14 +1,15 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { createClient } from "@/lib/supabase/client";
 import { getInAppBrowserType, openInExternalBrowser, type InAppBrowserType } from "@/lib/utils/browser-detect";
 import { AlertCircle, ExternalLink, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export function InAppBrowserWarning() {
     const [browserType, setBrowserType] = useState<InAppBrowserType>('none');
-    const router = useRouter();
+    const [isLoading, setIsLoading] = useState(false);
+    const supabase = createClient();
 
     useEffect(() => {
         setBrowserType(getInAppBrowserType());
@@ -16,10 +17,26 @@ export function InAppBrowserWarning() {
 
     if (browserType === 'none') return null;
 
-    const handleKakaoLogin = () => {
-        // 경고창을 닫고 로그인 페이지로 이동
-        setBrowserType('none');
-        router.push('/auth/login');
+    const handleKakaoLogin = async () => {
+        try {
+            setIsLoading(true);
+            const { error } = await supabase.auth.signInWithOAuth({
+                provider: "kakao",
+                options: {
+                    redirectTo: `${window.location.origin}/auth/callback`,
+                },
+            });
+
+            if (error) {
+                console.error("Error logging in with Kakao:", error.message);
+                alert("카카오 로그인 중 오류가 발생했습니다.");
+                setIsLoading(false);
+            }
+            // 성공 시 리다이렉트되므로 로딩 상태 유지
+        } catch (error) {
+            console.error("Error:", error);
+            setIsLoading(false);
+        }
     };
 
     // 카카오톡 인앱 브라우저 전용 메시지
@@ -70,10 +87,11 @@ export function InAppBrowserWarning() {
                         </Button>
                         <Button
                             onClick={handleKakaoLogin}
+                            disabled={isLoading}
                             size="lg"
                             className="w-full rounded-full text-base py-6 bg-yellow-400 hover:bg-yellow-500 text-black"
                         >
-                            카카오로 로그인하기
+                            {isLoading ? "로그인 중..." : "카카오로 로그인하기"}
                         </Button>
                     </div>
                 </div>
