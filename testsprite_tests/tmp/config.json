@@ -1,18 +1,16 @@
 {
-  "status": "init",
+  "status": "commited",
   "type": "frontend",
   "scope": "codebase",
-  "localEndpoint": "http://localhost:3000/",
-  "backendAuthType": "public",
+  "localEndpoint": "http://localhost:3000",
   "executionArgs": {
     "projectName": "encore_life",
-    "projectPath": "D:\\git\\encore_life",
+    "projectPath": "d:\\git\\encore_life",
     "testIds": [],
-    "additionalInstruction": "Execute backend tests using the corrected API paths (/api/posts).",
+    "additionalInstruction": "Focus on testing the 'InAppBrowserWarning' component logic (Kakao login button click) and the 'MobileNav' component visualization (background color, visibility).",
     "envs": {
       "API_KEY": "sk-user-WOIpsEwunpUhbf4NJDiTBx4HZbnKcjRc2u-_qfiVRLUtjhjH9TQYoYyB--aeWoYMbvhcVYRVwJrGy8ZekD496Sw86VKyt_3lyFRzWiC02lyZT2KIYeRHqdk6kpCRwD3Ugz0"
     }
   },
-  "proxy": "http://6d2f39f3-43c3-4dd5-a3d2-f51ecb448881:szpaTs1Wl00l6giEbejOGFMmXR0B2ixX@tun.testsprite.com:8080",
-  "serverPort": 50426
+  "proxy": "http://8c8e3dda-398c-4ca4-a8a7-2292ffbe9149:Pjslcl6TUzuZqmnZgxl1CFdUU8NTcE8p@tun.testsprite.com:8080"
 }

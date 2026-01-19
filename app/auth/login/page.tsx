@@ -3,6 +3,7 @@
 import { GoogleLoginButton } from "@/components/auth/google-login-button";
 import { KakaoLoginButton } from "@/components/auth/kakao-login-button";
 import { InAppBrowserWarning } from "@/components/auth/in-app-browser-warning";
+import { DevLoginButton } from "@/components/auth/dev-login-button";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
@@ -55,6 +56,9 @@ function LoginContent() {
                         </div>
 
                         <GoogleLoginButton redirectTo={next} />
+
+                        {/* 개발 환경 전용 테스트 버튼 */}
+                        <DevLoginButton />
 
                         <div className="text-center text-sm text-muted-foreground">
                             로그인하면{" "}

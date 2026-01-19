@@ -3,242 +3,47 @@
         "TypeScript",
         "Next.js",
         "Supabase",
-        "PostgreSQL",
         "Tailwind CSS"
     ],
     "features": [
         {
-            "name": "createPost",
-            "description": "Creates a new community post. Requires authentication via Bearer token. Validates input and saves to Supabase.",
+            "name": "Authentication",
+            "description": "User authentication with Supabase, including Email/Password, Kakao, and Google login.",
             "files": [
-                "app/api/posts/route.ts"
-            ],
-            "api_doc": {
-                "openapi": "3.0.0",
-                "paths": {
-                    "/api/posts": {
-                        "post": {
-                            "summary": "Create a new post",
-                            "requestBody": {
-                                "content": {
-                                    "application/json": {
-                                        "schema": {
-                                            "type": "object",
-                                            "properties": {
-                                                "title": {
-                                                    "type": "string"
-                                                },
-                                                "content": {
-                                                    "type": "string"
-                                                },
-                                                "category": {
-                                                    "type": "string"
-                                                }
-                                            },
-                                            "required": [
-                                                "title",
-                                                "content",
-                                                "category"
-                                            ]
-                                        }
-                                    }
-                                }
-                            },
-                            "responses": {
-                                "201": {
-                                    "description": "Post created successfully"
-                                },
-                                "401": {
-                                    "description": "Unauthorized"
-                                },
-                                "400": {
-                                    "description": "Missing required fields"
-                                },
-                                "500": {
-                                    "description": "Server error"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+                "app/auth/login/page.tsx",
+                "components/auth/kakao-login-button.tsx",
+                "components/auth/google-login-button.tsx",
+                "components/auth/in-app-browser-warning.tsx"
+            ]
         },
         {
-            "name": "getPostsByCategory",
-            "description": "Fetches a list of posts filtered by category. Publicly accessible.",
+            "name": "Community",
+            "description": "Community feature with post listing, details, creation, editing, and like functionality.",
             "files": [
-                "app/api/posts/route.ts"
-            ],
-            "api_doc": {
-                "openapi": "3.0.0",
-                "paths": {
-                    "/api/posts": {
-                        "get": {
-                            "summary": "Get posts by category",
-                            "parameters": [
-                                {
-                                    "name": "category",
-                                    "in": "query",
-                                    "required": true,
-                                    "schema": {
-                                        "type": "string"
-                                    }
-                                }
-                            ],
-                            "responses": {
-                                "200": {
-                                    "description": "List of posts"
-                                },
-                                "400": {
-                                    "description": "Category parameter is required"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+                "app/community/page.tsx",
+                "app/community/[category]/page.tsx",
+                "app/community/post/[id]/page.tsx",
+                "app/community/write/page.tsx",
+                "lib/actions/post.ts",
+                "lib/actions/like.ts"
+            ]
         },
         {
-            "name": "getPostById",
-            "description": "Fetches a single post by its ID. Publicly accessible.",
+            "name": "Navigation & Layout",
+            "description": "Responsive navigation bar with mobile drawer support and footer.",
             "files": [
-                "app/api/posts/[id]/route.ts"
-            ],
-            "api_doc": {
-                "openapi": "3.0.0",
-                "paths": {
-                    "/api/posts/{id}": {
-                        "get": {
-                            "summary": "Get post by ID",
-                            "parameters": [
-                                {
-                                    "name": "id",
-                                    "in": "path",
-                                    "required": true,
-                                    "schema": {
-                                        "type": "string",
-                                        "format": "uuid"
-                                    }
-                                }
-                            ],
-                            "responses": {
-                                "200": {
-                                    "description": "Post details"
-                                },
-                                "404": {
-                                    "description": "Post not found"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+                "components/layout/header.tsx",
+                "components/layout/mobile-nav.tsx",
+                "components/layout/footer.tsx"
+            ]
         },
         {
-            "name": "updatePost",
-            "description": "Updates an existing post. Requires authentication via Bearer token and ownership.",
+            "name": "Utilities",
+            "description": "Helper functions for browser detection and Supabase client.",
             "files": [
-                "app/api/posts/[id]/route.ts"
-            ],
-            "api_doc": {
-                "openapi": "3.0.0",
-                "paths": {
-                    "/api/posts/{id}": {
-                        "put": {
-                            "summary": "Update a post",
-                            "parameters": [
-                                {
-                                    "name": "id",
-                                    "in": "path",
-                                    "required": true,
-                                    "schema": {
-                                        "type": "string",
-                                        "format": "uuid"
-                                    }
-                                }
-                            ],
-                            "requestBody": {
-                                "content": {
-                                    "application/json": {
-                                        "schema": {
-                                            "type": "object",
-                                            "properties": {
-                                                "title": {
-                                                    "type": "string"
-                                                },
-                                                "content": {
-                                                    "type": "string"
-                                                },
-                                                "category": {
-                                                    "type": "string"
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            },
-                            "responses": {
-                                "200": {
-                                    "description": "Post updated successfully"
-                                },
-                                "401": {
-                                    "description": "Unauthorized"
-                                },
-                                "500": {
-                                    "description": "Server error or permission denied"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        {
-            "name": "deletePost",
-            "description": "Deletes a post. Requires authentication via Bearer token and ownership.",
-            "files": [
-                "app/api/posts/[id]/route.ts"
-            ],
-            "api_doc": {
-                "openapi": "3.0.0",
-                "paths": {
-                    "/api/posts/{id}": {
-                        "delete": {
-                            "summary": "Delete a post",
-                            "parameters": [
-                                {
-                                    "name": "id",
-                                    "in": "path",
-                                    "required": true,
-                                    "schema": {
-                                        "type": "string",
-                                        "format": "uuid"
-                                    }
-                                },
-                                {
-                                    "name": "category",
-                                    "in": "query",
-                                    "required": false,
-                                    "schema": {
-                                        "type": "string"
-                                    }
-                                }
-                            ],
-                            "responses": {
-                                "200": {
-                                    "description": "Post deleted"
-                                },
-                                "401": {
-                                    "description": "Unauthorized"
-                                },
-                                "500": {
-                                    "description": "Server error"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+                "lib/utils/browser-detect.ts",
+                "lib/supabase/client.ts"
+            ]
         }
     ]
 }

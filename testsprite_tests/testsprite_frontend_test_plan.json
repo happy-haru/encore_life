@@ -1,325 +1,382 @@
 [
   {
-    "id": "TC002",
-    "title": "Logout Functionality",
-    "description": "Ensure that the user is logged out properly and redirected to the main screen, and the header updates to non-authenticated state.",
+    "id": "TC001",
+    "title": "Create post successfully with valid input and authenticated user",
+    "description": "Verify that an authenticated user can create a new post with valid title, content, and category, and that the author attribute is securely set on the server side.",
     "category": "functional",
     "priority": "High",
     "steps": [
       {
         "type": "action",
-        "description": "Log in with valid credentials."
+        "description": "Authenticate user session"
       },
       {
         "type": "action",
-        "description": "Click the logout button or perform logout action."
+        "description": "Submit createPost request with valid title, content, and category"
       },
       {
         "type": "assertion",
-        "description": "Verify the user is redirected to the main screen."
+        "description": "Check the server adds correct author attribution from session"
       },
       {
         "type": "assertion",
-        "description": "Verify that the header changes to non-authenticated state (e.g., no profile image)."
+        "description": "Verify response redirects to category page with 303 status"
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm UI updates to display the newly created post without manual refresh"
+      }
+    ]
+  },
+  {
+    "id": "TC002",
+    "title": "Prevent post creation when unauthenticated",
+    "description": "Verify that a createPost request from an unauthenticated user is blocked with the appropriate error message.",
+    "category": "error handling",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Attempt to create a post without user authentication"
+      },
+      {
+        "type": "assertion",
+        "description": "Check for 'User not authenticated' error response"
       }
     ]
   },
   {
     "id": "TC003",
-    "title": "Access Protected Routes as Unauthorized User",
-    "description": "Confirm that unauthorized users are redirected to the login page when attempting to access protected routes.",
-    "category": "security",
+    "title": "Reject post creation with missing required fields",
+    "description": "Verify that creating a post with empty title or content fields results in validation errors before database insertion.",
+    "category": "error handling",
     "priority": "High",
     "steps": [
       {
         "type": "action",
-        "description": "Ensure the user is logged out."
+        "description": "Authenticate user session"
       },
       {
         "type": "action",
-        "description": "Navigate directly to a protected route such as community dashboard or post creation page."
+        "description": "Submit createPost request with empty title field"
       },
       {
         "type": "assertion",
-        "description": "Verify the user is redirected to the login page."
+        "description": "Verify validation error for missing title is returned"
+      },
+      {
+        "type": "action",
+        "description": "Submit createPost request with empty content field"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify validation error for missing content is returned"
       }
     ]
   },
   {
     "id": "TC004",
-    "title": "Create Community Post with Valid Data",
-    "description": "Verify that an authenticated user can create a new community post with all required fields and receive a confirmation toast, then is redirected to updated post list.",
-    "category": "functional",
-    "priority": "High",
+    "title": "Reject post creation with unknown category",
+    "description": "Verify that post creation with a category not recognized by validation rules is rejected or ignored according to system design.",
+    "category": "error handling",
+    "priority": "Medium",
     "steps": [
       {
         "type": "action",
-        "description": "Log in as an authenticated user."
+        "description": "Authenticate user session"
       },
       {
         "type": "action",
-        "description": "Navigate to the post creation form."
-      },
-      {
-        "type": "action",
-        "description": "Fill in the title, content, and select a category."
-      },
-      {
-        "type": "action",
-        "description": "Submit the post creation form."
+        "description": "Attempt to create post with an invalid/unknown category value"
       },
       {
         "type": "assertion",
-        "description": "Confirm a toast message appears confirming successful post creation."
-      },
-      {
-        "type": "assertion",
-        "description": "Verify redirect to the updated post list displaying the new post."
+        "description": "Confirm validation error or rejection response is returned"
       }
     ]
   },
   {
     "id": "TC005",
-    "title": "Create Community Post with Missing Required Fields",
-    "description": "Ensure form submission is prevented when required fields are missing, and appropriate warning messages are shown.",
-    "category": "error handling",
+    "title": "Fetch posts filtered by valid category",
+    "description": "Verify that public users can fetch lists of posts filtered by a valid category, and that response payload excludes unnecessary fields to optimize performance.",
+    "category": "functional",
     "priority": "High",
     "steps": [
       {
         "type": "action",
-        "description": "Log in as an authenticated user."
-      },
-      {
-        "type": "action",
-        "description": "Navigate to the post creation form."
-      },
-      {
-        "type": "action",
-        "description": "Leave the title field empty, fill content and select category."
-      },
-      {
-        "type": "action",
-        "description": "Attempt to submit the form."
+        "description": "Send getPostsByCategory request with a valid category parameter"
       },
       {
         "type": "assertion",
-        "description": "Verify a warning message appears indicating title is required."
+        "description": "Verify 200 response with list of posts only from requested category"
       },
       {
-        "type": "action",
-        "description": "Repeat with empty content and empty category fields to verify respective warnings."
+        "type": "assertion",
+        "description": "Verify the response payload contains optimized fields, avoiding heavy/unnecessary data"
       }
     ]
   },
   {
     "id": "TC006",
-    "title": "Read Community Post Detail",
-    "description": "Verify that users can access a post detail page by URL and view correct content with formatted date display.",
-    "category": "functional",
-    "priority": "Medium",
-    "steps": [
-      {
-        "type": "action",
-        "description": "Navigate to an existing post detail page using its URL."
-      },
-      {
-        "type": "assertion",
-        "description": "Verify that the post title, content, and category are displayed correctly."
-      },
-      {
-        "type": "assertion",
-        "description": "Verify the post creation date is displayed using proper format or relative time."
-      }
-    ]
-  },
-  {
-    "id": "TC007",
-    "title": "Edit Community Post by Author",
-    "description": "Confirm that only post authors see edit and delete buttons and can successfully edit a post with updated data reflected immediately.",
-    "category": "functional",
-    "priority": "High",
-    "steps": [
-      {
-        "type": "action",
-        "description": "Log in as the author of an existing post."
-      },
-      {
-        "type": "action",
-        "description": "Navigate to the post detail page."
-      },
-      {
-        "type": "assertion",
-        "description": "Verify that edit and delete buttons are visible."
-      },
-      {
-        "type": "action",
-        "description": "Click edit button and navigate to edit form."
-      },
-      {
-        "type": "assertion",
-        "description": "Confirm the form is pre-filled with the existing post data."
-      },
-      {
-        "type": "action",
-        "description": "Update title and content fields, then submit the edit form."
-      },
-      {
-        "type": "assertion",
-        "description": "Verify that the updated post data is immediately reflected on the post detail page."
-      }
-    ]
-  },
-  {
-    "id": "TC008",
-    "title": "Edit Community Post Not Visible to Non-Authors",
-    "description": "Verify that users who are not the authors of a post do not see edit or delete buttons on the post detail page.",
-    "category": "security",
-    "priority": "High",
-    "steps": [
-      {
-        "type": "action",
-        "description": "Log in as a user who is not the author of a specific post."
-      },
-      {
-        "type": "action",
-        "description": "Navigate to the post detail page."
-      },
-      {
-        "type": "assertion",
-        "description": "Verify that edit and delete buttons are not visible."
-      }
-    ]
-  },
-  {
-    "id": "TC009",
-    "title": "Delete Post Confirmation and Redirect",
-    "description": "Check that deleting a post prompts a confirmation, deletes the post upon confirmation, and redirects the user back to the post list.",
-    "category": "functional",
-    "priority": "High",
-    "steps": [
-      {
-        "type": "action",
-        "description": "Log in as the post author."
-      },
-      {
-        "type": "action",
-        "description": "Navigate to the post detail page."
-      },
-      {
-        "type": "action",
-        "description": "Click the delete button."
-      },
-      {
-        "type": "assertion",
-        "description": "Verify a confirmation prompt appears."
-      },
-      {
-        "type": "action",
-        "description": "Confirm the deletion."
-      },
-      {
-        "type": "assertion",
-        "description": "Verify the post is removed and the user is redirected to the updated post list page."
-      }
-    ]
-  },
-  {
-    "id": "TC010",
-    "title": "Category Filtering Shows Correct Posts",
-    "description": "Verify that selecting a category filter displays only posts belonging to that category, and empty state appears if no posts exist.",
-    "category": "functional",
-    "priority": "Medium",
-    "steps": [
-      {
-        "type": "action",
-        "description": "Log in as any authenticated user."
-      },
-      {
-        "type": "action",
-        "description": "Navigate to the community dashboard."
-      },
-      {
-        "type": "action",
-        "description": "Select a category filter from the list."
-      },
-      {
-        "type": "assertion",
-        "description": "Verify that only posts associated with the selected category are displayed."
-      },
-      {
-        "type": "action",
-        "description": "Select a category with no posts."
-      },
-      {
-        "type": "assertion",
-        "description": "Verify an empty state message indicating no posts is shown."
-      }
-    ]
-  },
-  {
-    "id": "TC011",
-    "title": "Loading Skeletons Display During Data Fetch",
-    "description": "Confirm that loading skeleton components are displayed on the UI during asynchronous data fetch operations to improve perceived performance.",
-    "category": "ui",
-    "priority": "Medium",
-    "steps": [
-      {
-        "type": "action",
-        "description": "Initiate loading of the community dashboard posts or post detail page."
-      },
-      {
-        "type": "assertion",
-        "description": "Verify that loading skeletons are visible prior to data being rendered."
-      },
-      {
-        "type": "assertion",
-        "description": "Verify skeletons disappear once data is loaded."
-      }
-    ]
-  },
-  {
-    "id": "TC012",
-    "title": "404 and Error Pages for Invalid Routes and Post IDs",
-    "description": "Ensure that navigating to invalid post IDs or incorrect routes renders friendly 404 or error pages.",
+    "title": "Handle fetch posts by category with unknown category",
+    "description": "Verify that fetching posts by an unknown category either returns empty results or returns an error according to design.",
     "category": "error handling",
     "priority": "Medium",
     "steps": [
       {
         "type": "action",
-        "description": "Navigate to an invalid or non-existent post ID via URL."
+        "description": "Send getPostsByCategory request with an invalid category parameter"
       },
       {
         "type": "assertion",
-        "description": "Verify a friendly 404 or error page is displayed."
+        "description": "Check for empty list or validation error per system behavior"
+      }
+    ]
+  },
+  {
+    "id": "TC007",
+    "title": "Fetch individual post details by valid ID",
+    "description": "Verify that public users can fetch details of an existing post given a valid post ID, and verify details are current and accurate.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Send getPostById request with valid UUID of an existing post"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify 200 response with correct post details including title, content, category, and author"
+      }
+    ]
+  },
+  {
+    "id": "TC008",
+    "title": "Handle getPostById with non-existent post ID",
+    "description": "Verify that request to getPostById with a UUID that does not exist gracefully results in frontend navigation to 404 page.",
+    "category": "error handling",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Send getPostById request with non-existent UUID"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify 404 response and frontend redirects to 404 not found page"
+      }
+    ]
+  },
+  {
+    "id": "TC009",
+    "title": "Successful update of post by authenticated owner",
+    "description": "Verify an authenticated user can update their own post fields (title, content, category) successfully with changes persisted and reflected in the UI.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Authenticate user session owning the post"
       },
       {
         "type": "action",
-        "description": "Navigate to an invalid route under the community section."
+        "description": "Submit updatePost request with valid changes and post ID owned by user"
       },
       {
         "type": "assertion",
-        "description": "Verify a friendly 404 or error page is displayed."
+        "description": "Verify response redirects to updated post detail page with status 303"
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm UI updates reflect the new post data with no manual refresh required"
+      }
+    ]
+  },
+  {
+    "id": "TC010",
+    "title": "Fail update post by non-owner due to RLS permission denial",
+    "description": "Verify that attempts to update a post by a user who does not own it are rejected with error or result in no data changes due to Row Level Security enforcement.",
+    "category": "security",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Authenticate user session different from post owner"
+      },
+      {
+        "type": "action",
+        "description": "Attempt updatePost request on post ID not owned by the user"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify error response or 500 status indicating permission denied"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify no changes were applied to post data"
+      }
+    ]
+  },
+  {
+    "id": "TC011",
+    "title": "Fail update post with invalid input data",
+    "description": "Verify that updating a post with invalid or empty required fields returns validation errors before database update.",
+    "category": "error handling",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Authenticate user session owning the post"
+      },
+      {
+        "type": "action",
+        "description": "Submit updatePost request with empty title field"
+      },
+      {
+        "type": "assertion",
+        "description": "Check for validation error on missing title"
+      },
+      {
+        "type": "action",
+        "description": "Submit updatePost request with empty content field"
+      },
+      {
+        "type": "assertion",
+        "description": "Check for validation error on missing content"
+      }
+    ]
+  },
+  {
+    "id": "TC012",
+    "title": "Successful deletion of post by authenticated owner",
+    "description": "Verify that an authenticated owner can delete their post successfully and that the deletion is reflected on UI via updated post lists.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Authenticate user session owning the post"
+      },
+      {
+        "type": "action",
+        "description": "Send deletePost request with valid post ID and associated category"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify 200 response confirming deletion"
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm the post is removed from category listing in the UI without manual refresh"
       }
     ]
   },
   {
     "id": "TC013",
-    "title": "Responsive Design Integrity on Mobile Viewports",
-    "description": "Verify that the community platform UI adapts seamlessly to mobile viewport sizes with no broken elements or usability issues.",
-    "category": "ui",
+    "title": "Prevent deletion of post by non-owner due to RLS",
+    "description": "Verify that an authenticated user who does not own the post cannot delete it, and receives appropriate error or no data deletion occurs due to Row Level Security.",
+    "category": "security",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Authenticate user session who is not owner"
+      },
+      {
+        "type": "action",
+        "description": "Attempt deletePost request on post ID not owned"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify error or 500 response indicating lack of permission"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the post remains unchanged in database and UI"
+      }
+    ]
+  },
+  {
+    "id": "TC014",
+    "title": "Handle deletion of non-existent post gracefully",
+    "description": "Verify that deletePost requests for a post ID that does not exist return appropriate error messages and do not cause unintended effects.",
+    "category": "error handling",
     "priority": "Medium",
     "steps": [
       {
         "type": "action",
-        "description": "Use a mobile viewport or emulator to access various pages including dashboard, post detail, create and edit forms."
+        "description": "Authenticate user session"
+      },
+      {
+        "type": "action",
+        "description": "Send deletePost request with non-existent post ID"
       },
       {
         "type": "assertion",
-        "description": "Verify all UI elements display correctly with no overlap, cut-offs, or broken layouts."
+        "description": "Verify error response indicating post not found or similar"
+      }
+    ]
+  },
+  {
+    "id": "TC015",
+    "title": "Cache invalidation and revalidation after post creation",
+    "description": "Verify that after successful creation of a post, the community listing and detail pages revalidate data so UI reflects new posts immediately.",
+    "category": "functional",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Create a new post as authenticated user"
       },
       {
         "type": "assertion",
-        "description": "Verify responsive navigation and interactive elements function as expected on mobile."
+        "description": "Verify that community listing page caches are invalidated and refreshed automatically"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify that the new post appears in relevant category views without manual refresh"
+      }
+    ]
+  },
+  {
+    "id": "TC016",
+    "title": "Cache invalidation and revalidation after post update",
+    "description": "Verify that after a post update, related pages revalidate content to immediately reflect updated data in the UI.",
+    "category": "functional",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Update a post as authenticated owner"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify cache invalidation triggers on community listing and post detail pages"
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm updated post data is shown immediately in the UI"
+      }
+    ]
+  },
+  {
+    "id": "TC017",
+    "title": "Handle database connectivity failure gracefully",
+    "description": "Verify that database connectivity issues during post creation, update, deletion, or fetch result in clear and user-friendly error messages without application crashes.",
+    "category": "error handling",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Simulate database connectivity failure"
+      },
+      {
+        "type": "action",
+        "description": "Attempt createPost, updatePost, deletePost, and getPostsByCategory requests"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify that each operation returns appropriate error messages describing system failures"
       }
     ]
   }
