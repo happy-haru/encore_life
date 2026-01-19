@@ -1,3 +1,14 @@
+export type InAppBrowserType = 'kakao' | 'other' | 'none';
+
+/**
+ * Detects if the current browser is a KakaoTalk in-app browser
+ */
+export function isKakaoInAppBrowser(): boolean {
+    if (typeof window === 'undefined') return false;
+    const ua = navigator.userAgent || navigator.vendor;
+    return /KAKAOTALK/i.test(ua);
+}
+
 /**
  * Detects if the current browser is an in-app browser (KakaoTalk, Facebook, Instagram, etc.)
  * These browsers often have restrictions on OAuth flows
@@ -20,6 +31,41 @@ export function isInAppBrowser(): boolean {
     ];
 
     return inAppBrowserPatterns.some(pattern => pattern.test(ua));
+}
+
+/**
+ * Returns the type of in-app browser being used
+ */
+export function getInAppBrowserType(): InAppBrowserType {
+    if (typeof window === 'undefined') return 'none';
+
+    if (isKakaoInAppBrowser()) {
+        return 'kakao';
+    }
+
+    if (isInAppBrowser()) {
+        return 'other';
+    }
+
+    return 'none';
+}
+
+/**
+ * Checks if Kakao login can be used in the current browser
+ */
+export function canUseKakaoLogin(): boolean {
+    const browserType = getInAppBrowserType();
+    // Kakao login works in all browsers, including KakaoTalk in-app
+    return true;
+}
+
+/**
+ * Checks if Google login can be used in the current browser
+ */
+export function canUseGoogleLogin(): boolean {
+    const browserType = getInAppBrowserType();
+    // Google login is blocked in all in-app browsers
+    return browserType === 'none';
 }
 
 /**
