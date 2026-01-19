@@ -3,13 +3,16 @@ import { Footer } from "@/components/layout/footer";
 import { HeroSection } from "@/components/landing/hero-section";
 import { FeaturesSection } from "@/components/landing/features-section";
 import { CTASection } from "@/components/landing/cta-section";
+import { getHomepageStats } from "@/lib/actions/stats";
 
-export default function Home() {
+export default async function Home() {
+  const stats = await getHomepageStats();
+
   return (
     <div className="flex flex-col min-h-screen">
       <Header />
       <main className="flex-1">
-        <HeroSection />
+        <HeroSection stats={stats} />
         <FeaturesSection />
         <CTASection />
       </main>
