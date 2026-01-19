@@ -3,8 +3,11 @@
 import { useState, useEffect } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { getInAppBrowserType, openInExternalBrowser, type InAppBrowserType } from "@/lib/utils/browser-detect";
-import { AlertCircle, ExternalLink, CheckCircle2 } from "lucide-react";
+import { AlertCircle, ExternalLink, CheckCircle2, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+
+const STORAGE_KEY = 'inapp-warning-dismissed';
+const DISMISS_DURATION = 24 * 60 * 60 * 1000; // 24시간
 
 export function InAppBrowserWarning() {
     const [browserType, setBrowserType] = useState<InAppBrowserType>('none');
@@ -12,8 +15,25 @@ export function InAppBrowserWarning() {
     const supabase = createClient();
 
     useEffect(() => {
+        // localStorage에서 마지막 닫은 시간 확인
+        const dismissedTime = localStorage.getItem(STORAGE_KEY);
+        if (dismissedTime) {
+            const elapsed = Date.now() - parseInt(dismissedTime);
+            if (elapsed < DISMISS_DURATION) {
+                // 24시간 이내면 표시하지 않음
+                setBrowserType('none');
+                return;
+            }
+        }
+
+        // 24시간이 지났거나 처음이면 브라우저 타입 체크
         setBrowserType(getInAppBrowserType());
     }, []);
+
+    const handleDismiss = () => {
+        localStorage.setItem(STORAGE_KEY, Date.now().toString());
+        setBrowserType('none');
+    };
 
     if (browserType === 'none') return null;
 
@@ -43,7 +63,16 @@ export function InAppBrowserWarning() {
     if (browserType === 'kakao') {
         return (
             <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4">
-                <div className="bg-white rounded-2xl max-w-md w-full p-8 space-y-6 animate-in zoom-in-95 duration-200">
+                <div className="bg-white rounded-2xl max-w-md w-full p-8 space-y-6 animate-in zoom-in-95 duration-200 relative">
+                    {/* 닫기 버튼 */}
+                    <button
+                        onClick={handleDismiss}
+                        className="absolute top-4 right-4 p-2 hover:bg-slate-100 rounded-full transition-colors"
+                        aria-label="24시간 동안 보지 않기"
+                    >
+                        <X className="h-5 w-5 text-slate-500" />
+                    </button>
+
                     <div className="flex items-start gap-4">
                         <div className="p-3 bg-blue-100 rounded-full">
                             <AlertCircle className="h-6 w-6 text-blue-600" />

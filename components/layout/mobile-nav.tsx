@@ -64,7 +64,10 @@ export function MobileNav() {
                         openMenu("mobile");
                     }
                 }}
-                aria-label="메뉴 열기"
+                aria-label={isOpen ? "모바일 메뉴 닫기" : "모바일 메뉴 열기"}
+                aria-expanded={isOpen}
+                aria-controls="mobile-navigation"
+                aria-haspopup="menu"
             >
                 <Menu className="h-6 w-6" />
             </Button>
