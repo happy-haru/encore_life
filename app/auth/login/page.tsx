@@ -1,9 +1,12 @@
 import { GoogleLoginButton } from "@/components/auth/google-login-button";
+import { InAppBrowserWarning } from "@/components/auth/in-app-browser-warning";
 import Link from "next/link";
 
 export default function LoginPage() {
     return (
         <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-primary/5 via-background to-accent/5 px-4">
+            <InAppBrowserWarning />
+
             <div className="w-full max-w-md">
                 {/* 로고 */}
                 <div className="text-center mb-8">
