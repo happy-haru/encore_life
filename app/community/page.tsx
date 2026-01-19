@@ -18,9 +18,9 @@ const categories = [
     {
         id: "free-board",
         title: "자유게시판",
-        description: "재취업 성공담, 고민 상담, 질문답변, 멘토링을 함께 나눠요",
+        description: "서로의 안부를 묻고 자유롭게 소통하는 공간",
         icon: MessageSquareQuote,
-        tags: ["성공사례", "질문답변", "멘토링", "동기부여"],
+        tags: ["소통", "질문답변", "동기부여", "사는이야기"],
         color: "text-blue-600 bg-blue-100 dark:bg-blue-900/20"
     },
     {

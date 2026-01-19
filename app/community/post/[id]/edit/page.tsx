@@ -13,7 +13,7 @@ import { useState, useEffect } from "react";
 import { Loader2 } from "lucide-react";
 
 const categories = [
-    { id: "free-board", title: "자유게시판 (성공담/질문/멘토링)" },
+    { id: "free-board", title: "자유게시판 (소통/질문/사는이야기)" },
     { id: "job-info", title: "취업정보 (면접/채용/직무)" },
     { id: "education", title: "교육·자격증" },
     { id: "regional", title: "지역 모임" },
