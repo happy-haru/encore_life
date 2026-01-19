@@ -26,7 +26,7 @@ export function InAppBrowserWarning() {
                             외부 브라우저로 열어주세요
                         </h2>
                         <p className="text-slate-600 leading-relaxed">
-                            카카오톡, 페이스북 등의 앱 내 브라우저에서는 Google 로그인이 제한됩니다.
+                            카카오톡, 페이스북 등의 앱 내 브라우저에서는 <strong>카카오 및 구글 로그인이 제한</strong>됩니다.
                         </p>
                     </div>
                 </div>
