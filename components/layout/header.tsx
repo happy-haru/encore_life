@@ -37,7 +37,7 @@ export function Header() {
                 </nav>
 
                 {/* 우측 버튼 섹션 */}
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-6">
                     {/* 모바일 네비게이션 */}
                     <MobileNav />
 
