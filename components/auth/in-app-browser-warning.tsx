@@ -1,18 +1,26 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { getInAppBrowserType, openInExternalBrowser, type InAppBrowserType } from "@/lib/utils/browser-detect";
 import { AlertCircle, ExternalLink, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export function InAppBrowserWarning() {
     const [browserType, setBrowserType] = useState<InAppBrowserType>('none');
+    const router = useRouter();
 
     useEffect(() => {
         setBrowserType(getInAppBrowserType());
     }, []);
 
     if (browserType === 'none') return null;
+
+    const handleKakaoLogin = () => {
+        // 경고창을 닫고 로그인 페이지로 이동
+        setBrowserType('none');
+        router.push('/auth/login');
+    };
 
     // 카카오톡 인앱 브라우저 전용 메시지
     if (browserType === 'kakao') {
@@ -61,7 +69,7 @@ export function InAppBrowserWarning() {
                             외부 브라우저로 열기
                         </Button>
                         <Button
-                            onClick={() => setBrowserType('none')}
+                            onClick={handleKakaoLogin}
                             size="lg"
                             className="w-full rounded-full text-base py-6 bg-yellow-400 hover:bg-yellow-500 text-black"
                         >

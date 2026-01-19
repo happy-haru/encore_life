@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { NAVIGATION_ITEMS } from "@/lib/constants";
 import { UserMenu } from "@/components/auth/user-menu";
+import { MobileNav } from "@/components/layout/mobile-nav";
 
 export function Header() {
     return (
@@ -37,6 +38,10 @@ export function Header() {
 
                 {/* 우측 버튼 섹션 */}
                 <div className="flex items-center gap-4">
+                    {/* 모바일 네비게이션 */}
+                    <MobileNav />
+
+                    {/* 사용자 메뉴 */}
                     <UserMenu />
                 </div>
             </div>
