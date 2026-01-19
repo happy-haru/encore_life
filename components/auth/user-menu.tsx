@@ -54,7 +54,7 @@ export function UserMenu() {
 
     return (
         <DropdownMenu open={isOpen} onOpenChange={handleOpenChange}>
-            <DropdownMenuTrigger asChild>
+            <DropdownMenuTrigger asChild onClick={(e) => e.stopPropagation()} onPointerDown={(e) => e.stopPropagation()}>
                 <Button variant="ghost" className="relative h-11 w-11 rounded-full overflow-hidden p-0 shrink-0 hover:scale-105 transition-transform">
                     {avatarUrl ? (
                         <img

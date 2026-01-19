@@ -73,7 +73,7 @@ export default function WritePage() {
                     <h1 className="text-3xl font-bold mb-8">글쓰기</h1>
 
                     <form onSubmit={handleSubmit} className="space-y-6">
-                        <div className="space-y-2" onClick={(e) => e.stopPropagation()}>
+                        <div className="space-y-2" onClick={(e) => e.stopPropagation()} onPointerDown={(e) => e.stopPropagation()} onTouchStart={(e) => e.stopPropagation()}>
                             <label htmlFor="category" className="text-sm font-medium">카테고리</label>
                             <Select value={selectedCategory} onValueChange={setSelectedCategory} required>
                                 <SelectTrigger>

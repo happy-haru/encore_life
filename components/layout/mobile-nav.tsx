@@ -55,7 +55,15 @@ export function MobileNav() {
                 variant="ghost"
                 size="icon"
                 className="md:hidden"
-                onClick={toggleMenu}
+                onClick={(e) => {
+                    e.stopPropagation();
+                    // 토글 로직은 MenuContext가 없을 때를 대비하거나, 내부적으로 useMenu 사용
+                    if (isMenuOpen("mobile")) {
+                        closeMenu();
+                    } else {
+                        openMenu("mobile");
+                    }
+                }}
                 aria-label="메뉴 열기"
             >
                 <Menu className="h-6 w-6" />
