@@ -78,26 +78,32 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
                                             {post.content}
                                         </p>
 
-                                        <div className="flex items-center justify-between pt-4 mt-2 border-t border-slate-100">
-                                            <div className="flex items-center gap-4 text-base text-slate-500">
+
+                                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pt-4 mt-2 border-t border-slate-100">
+                                            {/* 왼쪽: 글쓴이 + 시간 */}
+                                            <div className="flex items-center gap-3 text-sm sm:text-base text-slate-500">
                                                 <span className="font-semibold text-slate-700 flex items-center gap-2">
-                                                    <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-xs">
+                                                    <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-slate-100 flex items-center justify-center text-xs">
                                                         {post.author_name[0]}
                                                     </div>
-                                                    {post.author_name}
+                                                    <span className="truncate max-w-[120px] sm:max-w-none">{post.author_name}</span>
                                                 </span>
                                                 <span className="text-slate-300">|</span>
-                                                <span className="flex items-center gap-1">
+                                                <span className="flex items-center gap-1 text-xs sm:text-sm">
                                                     {formatDistanceToNow(new Date(post.created_at), { addSuffix: true, locale: ko })}
                                                 </span>
                                             </div>
-                                            <div className="flex items-center gap-1.5 text-pink-600">
-                                                <Heart className="h-5 w-5 fill-pink-100" />
-                                                <span className="font-semibold">{post.like_count || 0}</span>
+
+                                            {/* 오른쪽: 좋아요 + 더보기 */}
+                                            <div className="flex items-center justify-between sm:justify-start gap-4">
+                                                <div className="flex items-center gap-1.5 text-pink-600">
+                                                    <Heart className="h-5 w-5 fill-pink-100" />
+                                                    <span className="font-semibold">{post.like_count || 0}</span>
+                                                </div>
+                                                <span className="text-primary font-medium flex items-center gap-1 group-hover:translate-x-1 transition-transform text-sm sm:text-base">
+                                                    더 보기 <span aria-hidden="true">&rarr;</span>
+                                                </span>
                                             </div>
-                                            <span className="text-primary font-medium flex items-center gap-1 group-hover:translate-x-1 transition-transform">
-                                                더 보기 <span aria-hidden="true">&rarr;</span>
-                                            </span>
                                         </div>
                                     </div>
                                 </Link>
