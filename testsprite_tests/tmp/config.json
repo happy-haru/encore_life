@@ -1,8 +1,8 @@
 {
-  "status": "commited",
-  "type": "backend",
+  "status": "init",
+  "type": "frontend",
   "scope": "codebase",
-  "localEndpoint": "http://localhost:3000",
+  "localEndpoint": "http://localhost:3000/",
   "backendAuthType": "public",
   "executionArgs": {
     "projectName": "encore_life",
@@ -13,5 +13,6 @@
       "API_KEY": "sk-user-WOIpsEwunpUhbf4NJDiTBx4HZbnKcjRc2u-_qfiVRLUtjhjH9TQYoYyB--aeWoYMbvhcVYRVwJrGy8ZekD496Sw86VKyt_3lyFRzWiC02lyZT2KIYeRHqdk6kpCRwD3Ugz0"
     }
   },
-  "proxy": "http://6d2f39f3-43c3-4dd5-a3d2-f51ecb448881:szpaTs1Wl00l6giEbejOGFMmXR0B2ixX@tun.testsprite.com:8080"
+  "proxy": "http://6d2f39f3-43c3-4dd5-a3d2-f51ecb448881:szpaTs1Wl00l6giEbejOGFMmXR0B2ixX@tun.testsprite.com:8080",
+  "serverPort": 50426
 }

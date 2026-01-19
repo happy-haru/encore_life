@@ -3,16 +3,12 @@ import { createServerClient } from '@supabase/ssr'
 
 export async function createClient() {
     const cookieStore = await cookies()
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-    const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim()
+    const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.trim()
 
-    // 빌드 시 환경 변수가 없을 경우 에러 방지를 위한 처리
     if (!supabaseUrl || !supabaseAnonKey) {
-        return createServerClient(
-            'https://placeholder.supabase.co',
-            'placeholder-key',
-            { cookies: { getAll: () => [], setAll: () => { } } }
-        )
+        console.error("Supabase environment variables are missing on the server!");
+        throw new Error("NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY must be defined");
     }
 
     return createServerClient(

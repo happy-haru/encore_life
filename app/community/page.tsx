@@ -27,7 +27,7 @@ const categories = [
         color: "text-yellow-600 bg-yellow-100 dark:bg-yellow-900/20"
     },
     {
-        id: "job-groups",
+        id: "industry-groups",
         title: "직종별 모임",
         description: "영업/마케팅, IT, 경리/회계 등 분야별 정보 공유",
         icon: Briefcase,
@@ -90,7 +90,7 @@ export default function CommunityPage() {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
                     {categories.map((category) => (
-                        <Card key={category.id} className="group hover:shadow-lg transition-all duration-300 border-muted/60">
+                        <Card key={category.id} className="group hover:shadow-lg transition-all duration-300 border-muted/60 relative">
                             <CardHeader>
                                 <div className="flex items-start justify-between mb-4">
                                     <div className={`p-3 rounded-xl ${category.color}`}>

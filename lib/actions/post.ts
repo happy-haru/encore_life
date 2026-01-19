@@ -31,13 +31,10 @@ export async function createPost(formData: FormData, options?: { skipRedirect?: 
     }
 
     revalidatePath(`/community/${category}`);
-    revalidatePath("/community"); // Revalidate main community page if we show recent posts there
+    revalidatePath("/community");
 
-    if (options?.skipRedirect) {
-        return data;
-    }
-
-    redirect(`/community/${category}`);
+    // Return success with category for client-side redirect
+    return { success: true, category };
 }
 
 export async function getPostsByCategory(category: string) {
@@ -45,7 +42,10 @@ export async function getPostsByCategory(category: string) {
 
     const { data, error } = await supabase
         .from("posts")
-        .select("*")
+        .select(`
+            *,
+            likes:post_likes(count)
+        `)
         .eq("category", category)
         .order("created_at", { ascending: false });
 
@@ -54,7 +54,11 @@ export async function getPostsByCategory(category: string) {
         return [];
     }
 
-    return data;
+    // Transform the data to include like_count
+    return data.map(post => ({
+        ...post,
+        like_count: post.likes?.[0]?.count || 0
+    }));
 }
 
 export async function getPostById(id: string) {

@@ -14,7 +14,7 @@ import { Loader2 } from "lucide-react";
 
 const categories = [
     { id: "success-stories", title: "재취업 성공 스토리" },
-    { id: "job-groups", title: "직종별 모임" },
+    { id: "industry-groups", title: "직종별 모임" },
     { id: "interview-reviews", title: "면접 후기 게시판" },
     { id: "mentoring", title: "멘토링 매칭" },
     { id: "education", title: "자격증/교육 정보" },
@@ -26,6 +26,7 @@ export default function WritePage() {
     const { user, loading: authLoading } = useAuth();
     const router = useRouter();
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [selectedCategory, setSelectedCategory] = useState<string>("");
 
     if (authLoading) return <div className="h-screen flex items-center justify-center">Loading...</div>;
 
@@ -43,14 +44,23 @@ export default function WritePage() {
         );
     }
 
-    const handleSubmit = async (formData: FormData) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        if (isSubmitting) return; // Prevent double submission
+
         setIsSubmitting(true);
         try {
-            await createPost(formData);
-            // Redirect is handled in server action, but fallback here just in case
+            const formData = new FormData(e.currentTarget);
+            const result = await createPost(formData);
+            // If successful, redirect to category page
+            if (result?.success && result?.category) {
+                router.push(`/community/${result.category}`);
+            }
         } catch (error) {
             console.error(error);
             alert("글 작성에 실패했습니다.");
+        } finally {
             setIsSubmitting(false);
         }
     };
@@ -62,10 +72,10 @@ export default function WritePage() {
                 <div className="max-w-2xl mx-auto">
                     <h1 className="text-3xl font-bold mb-8">글쓰기</h1>
 
-                    <form action={handleSubmit} className="space-y-6">
+                    <form onSubmit={handleSubmit} className="space-y-6">
                         <div className="space-y-2">
                             <label htmlFor="category" className="text-sm font-medium">카테고리</label>
-                            <Select name="category" required>
+                            <Select value={selectedCategory} onValueChange={setSelectedCategory} required>
                                 <SelectTrigger>
                                     <SelectValue placeholder="카테고리를 선택하세요" />
                                 </SelectTrigger>
@@ -77,6 +87,8 @@ export default function WritePage() {
                                     ))}
                                 </SelectContent>
                             </Select>
+                            {/* Hidden input to include category in form data */}
+                            <input type="hidden" name="category" value={selectedCategory} />
                         </div>
 
                         <div className="space-y-2">
@@ -98,7 +110,7 @@ export default function WritePage() {
                             <Button type="button" variant="outline" onClick={() => router.back()}>
                                 취소
                             </Button>
-                            <Button type="submit" disabled={isSubmitting}>
+                            <Button type="submit" disabled={isSubmitting || !selectedCategory}>
                                 {isSubmitting ? (
                                     <>
                                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
