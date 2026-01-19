@@ -6,7 +6,7 @@ export const APP_SLOGAN = '경험이 빛나는 새로운 시작';
 export const NAVIGATION_ITEMS = [
     { label: '채용공고', href: '/jobs' },
     { label: '커뮤니티', href: '/community' },
-    { label: '성공사례', href: '/success-stories' },
+    { label: '성공사례', href: '/community/free-board' },
     { label: '취업가이드', href: '/guide' },
 ] as const;
 

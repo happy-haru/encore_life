@@ -13,13 +13,10 @@ import { useState, useEffect } from "react";
 import { Loader2 } from "lucide-react";
 
 const categories = [
-    { id: "success-stories", title: "재취업 성공 스토리" },
-    { id: "industry-groups", title: "직종별 모임" },
-    { id: "interview-reviews", title: "면접 후기 게시판" },
-    { id: "mentoring", title: "멘토링 매칭" },
-    { id: "education", title: "자격증/교육 정보" },
-    { id: "qna", title: "Q&A 게시판" },
-    { id: "regional", title: "지역별 모임" },
+    { id: "free-board", title: "자유게시판 (성공담/질문/멘토링)" },
+    { id: "job-info", title: "취업정보 (면접/채용/직무)" },
+    { id: "education", title: "교육·자격증" },
+    { id: "regional", title: "지역 모임" },
 ];
 
 export default function EditPostPage({ params }: { params: { id: string } }) {

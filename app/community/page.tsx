@@ -5,12 +5,9 @@ import { Footer } from "@/components/layout/footer";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import {
-    Trophy,
     Briefcase,
     MessageSquareQuote,
-    UserPlus,
     GraduationCap,
-    HelpCircle,
     MapPin,
     ArrowRight
 } from "lucide-react";
@@ -19,60 +16,36 @@ import { Button } from "@/components/ui/button";
 
 const categories = [
     {
-        id: "success-stories",
-        title: "재취업 성공 스토리",
-        description: "실제 재취업 성공 사례 인터뷰와 동기부여 콘텐츠",
-        icon: Trophy,
-        tags: ["성공사례", "인터뷰", "동기부여"],
-        color: "text-yellow-600 bg-yellow-100 dark:bg-yellow-900/20"
-    },
-    {
-        id: "industry-groups",
-        title: "직종별 모임",
-        description: "영업/마케팅, IT, 경리/회계 등 분야별 정보 공유",
-        icon: Briefcase,
-        tags: ["직무토크", "업계동향", "정보공유"],
+        id: "free-board",
+        title: "자유게시판",
+        description: "재취업 성공담, 고민 상담, 질문답변, 멘토링을 함께 나눠요",
+        icon: MessageSquareQuote,
+        tags: ["성공사례", "질문답변", "멘토링", "동기부여"],
         color: "text-blue-600 bg-blue-100 dark:bg-blue-900/20"
     },
     {
-        id: "interview-reviews",
-        title: "면접 후기 게시판",
-        description: "기업별 면접 질문 및 분위기, 합격/불합격 피드백",
-        icon: MessageSquareQuote,
-        tags: ["면접기출", "후기공유", "팁"],
+        id: "job-info",
+        title: "취업정보",
+        description: "면접 후기, 채용 정보, 직종별 정보를 공유해요",
+        icon: Briefcase,
+        tags: ["면접후기", "채용정보", "직무정보", "업계동향"],
         color: "text-green-600 bg-green-100 dark:bg-green-900/20"
     },
     {
-        id: "mentoring",
-        title: "멘토링 매칭",
-        description: "재취업 성공자와 구직자 1:1 연결 및 상담",
-        icon: UserPlus,
-        tags: ["1:1상담", "커피챗", "경력전환"],
-        color: "text-purple-600 bg-purple-100 dark:bg-purple-900/20"
-    },
-    {
         id: "education",
-        title: "자격증/교육 정보",
-        description: "중장년 우대 자격증 및 정부 지원 무료 교육 정보",
+        title: "교육·자격증",
+        description: "국비지원 교육, 자격증 정보, 무료 강의를 알아봐요",
         icon: GraduationCap,
-        tags: ["교육정보", "자격증", "국비지원"],
-        color: "text-red-600 bg-red-100 dark:bg-red-900/20"
-    },
-    {
-        id: "qna",
-        title: "Q&A 게시판",
-        description: "이력서 첨삭, 연봉 협상 등 궁금한 점 질문하기",
-        icon: HelpCircle,
-        tags: ["질문답변", "고민상담", "법률노무"],
+        tags: ["국비지원", "자격증", "온라인교육", "정부지원"],
         color: "text-orange-600 bg-orange-100 dark:bg-orange-900/20"
     },
     {
         id: "regional",
-        title: "지역별 모임",
-        description: "오프라인 네트워킹 및 지역 채용 정보 공유",
+        title: "지역 모임",
+        description: "지역별 오프라인 모임, 채용박람회, 네트워킹을 만들어요",
         icon: MapPin,
-        tags: ["우리동네", "오프라인", "채용박람회"],
-        color: "text-cyan-600 bg-cyan-100 dark:bg-cyan-900/20"
+        tags: ["우리동네", "오프라인", "네트워킹", "채용박람회"],
+        color: "text-purple-600 bg-purple-100 dark:bg-purple-900/20"
     }
 ];
 
@@ -88,7 +61,7 @@ export default function CommunityPage() {
                     </p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
                     {categories.map((category) => (
                         <Card key={category.id} className="group hover:shadow-lg transition-all duration-300 border-muted/60 relative">
                             <CardHeader>

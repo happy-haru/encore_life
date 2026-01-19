@@ -31,14 +31,12 @@ export default async function PostPage({ params }: { params: Promise<{ id: strin
     }
 
     // 카테고리 한글 명칭 매핑
+    // 카테고리 한글 명칭 매핑
     const categoryTitles: Record<string, string> = {
-        "success-stories": "재취업 성공 스토리",
-        "industry-groups": "직종별 모임",
-        "interview-reviews": "면접 후기 게시판",
-        "mentoring": "멘토링 매칭",
-        "education": "자격증/교육 정보",
-        "qna": "Q&A 게시판",
-        "regional": "지역별 모임",
+        "free-board": "자유게시판",
+        "job-info": "취업정보",
+        "education": "교육·자격증",
+        "regional": "지역 모임",
     };
 
     const categoryTitle = categoryTitles[post.category] || "커뮤니티";

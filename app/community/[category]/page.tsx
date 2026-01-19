@@ -12,14 +12,12 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
     const posts = await getPostsByCategory(category);
 
     // Map category ID to Korean title
+    // Map category ID to Korean title
     const categoryTitles: Record<string, string> = {
-        "success-stories": "재취업 성공 스토리",
-        "industry-groups": "직종별 모임",
-        "interview-reviews": "면접 후기 게시판",
-        "mentoring": "멘토링 매칭",
-        "education": "자격증/교육 정보",
-        "qna": "Q&A 게시판",
-        "regional": "지역별 모임",
+        "free-board": "자유게시판",
+        "job-info": "취업정보",
+        "education": "교육·자격증",
+        "regional": "지역 모임",
     };
 
     const title = categoryTitles[category] || "커뮤니티";
