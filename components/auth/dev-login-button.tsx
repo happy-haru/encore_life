@@ -18,8 +18,8 @@ export function DevLoginButton() {
     const handleDevLogin = async () => {
         setIsLoading(true);
         setErrorMsg(null);
-        const email = "test@example.com";
-        const password = "password1234";
+        const email = process.env.NEXT_PUBLIC_DEV_TEST_EMAIL || "test@example.com";
+        const password = process.env.NEXT_PUBLIC_DEV_TEST_PASSWORD || "password1234";
 
         try {
             // 1. 로그인 시도

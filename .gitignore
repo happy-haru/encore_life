@@ -44,6 +44,9 @@ next-env.d.ts
 /testsprite_tests/tmp/
 /testsprite_tests/*.html
 /testsprite_tests/*.json
+/testsprite_tests/*.png
+/testsprite_tests/.testsprite/
 !/testsprite_tests/standard_prd.json
 !/testsprite_tests/testsprite_backend_test_plan.json
 !/testsprite_tests/testsprite_frontend_test_plan.json
+!/testsprite_tests/reproduced_test_fix.py
