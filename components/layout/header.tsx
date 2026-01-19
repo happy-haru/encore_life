@@ -41,8 +41,10 @@ export function Header() {
                     {/* 모바일 네비게이션 */}
                     <MobileNav />
 
-                    {/* 사용자 메뉴 */}
-                    <UserMenu />
+                    {/* 사용자 메뉴 (모바일에서는 숨김) */}
+                    <div className="hidden md:block">
+                        <UserMenu />
+                    </div>
                 </div>
             </div>
         </header>
