@@ -45,7 +45,7 @@ export function DeleteButton({ postId, category }: DeleteButtonProps) {
 
             {/* Custom Modal Portal could be here, but for simplicity rendering inline with fixed position z-index */}
             {showConfirm && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm animate-in fade-in duration-200">
+                <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 backdrop-blur-sm animate-in fade-in duration-200">
                     <div className="bg-white rounded-xl shadow-xl p-8 max-w-sm w-full mx-4 border animate-in zoom-in-95 duration-200">
                         <h3 className="text-xl font-bold mb-4 text-slate-900">글 삭제 확인</h3>
                         <p className="text-slate-600 mb-8 leading-relaxed">

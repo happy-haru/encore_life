@@ -1,6 +1,7 @@
 "use client";
 
 import { useAuth } from "@/context/auth-context";
+import { useMenu } from "@/context/menu-context";
 import { Button } from "@/components/ui/button";
 import {
     DropdownMenu,
@@ -16,7 +17,18 @@ import { useRouter } from "next/navigation";
 
 export function UserMenu() {
     const { user, signOut } = useAuth();
+    const { isMenuOpen, openMenu, closeMenu } = useMenu();
     const router = useRouter();
+
+    const isOpen = isMenuOpen("user");
+
+    const handleOpenChange = (open: boolean) => {
+        if (open) {
+            openMenu("user");
+        } else {
+            closeMenu();
+        }
+    };
 
     const handleSignOut = async () => {
         await signOut();
@@ -41,7 +53,7 @@ export function UserMenu() {
     const avatarUrl = user.user_metadata?.avatar_url;
 
     return (
-        <DropdownMenu>
+        <DropdownMenu open={isOpen} onOpenChange={handleOpenChange}>
             <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="relative h-11 w-11 rounded-full overflow-hidden p-0 shrink-0 hover:scale-105 transition-transform">
                     {avatarUrl ? (

@@ -1,21 +1,52 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect } from "react";
 import Link from "next/link";
 import { Menu, X, ChevronRight } from "lucide-react";
 import { NAVIGATION_ITEMS } from "@/lib/constants";
 import { Button } from "@/components/ui/button";
+import { useMenu } from "@/context/menu-context";
 
 export function MobileNav() {
-    const [isOpen, setIsOpen] = useState(false);
+    const { isMenuOpen, openMenu, closeMenu } = useMenu();
+    const isOpen = isMenuOpen("mobile");
 
     const toggleMenu = () => {
-        setIsOpen(!isOpen);
+        if (isOpen) {
+            closeMenu();
+        } else {
+            openMenu("mobile");
+        }
     };
 
-    const closeMenu = () => {
-        setIsOpen(false);
+    const handleCloseMenu = () => {
+        closeMenu();
     };
+
+    // ESC 키로 메뉴 닫기
+    useEffect(() => {
+        const handleEscape = (e: KeyboardEvent) => {
+            if (e.key === "Escape" && isOpen) {
+                handleCloseMenu();
+            }
+        };
+
+        document.addEventListener("keydown", handleEscape);
+        return () => document.removeEventListener("keydown", handleEscape);
+    }, [isOpen]);
+
+    // 메뉴가 열릴 때 body 스크롤 방지
+    useEffect(() => {
+        if (isOpen) {
+            document.body.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = "";
+        }
+
+        return () => {
+            document.body.style.overflow = "";
+        };
+    }, [isOpen]);
 
     return (
         <>
@@ -34,7 +65,7 @@ export function MobileNav() {
             {isOpen && (
                 <div
                     className="fixed inset-0 z-40 bg-black/60 md:hidden backdrop-blur-sm"
-                    onClick={closeMenu}
+                    onClick={handleCloseMenu}
                     aria-hidden="true"
                 />
             )}
@@ -54,7 +85,7 @@ export function MobileNav() {
                         <Button
                             variant="ghost"
                             size="icon"
-                            onClick={closeMenu}
+                            onClick={handleCloseMenu}
                             aria-label="메뉴 닫기"
                             className="rounded-full hover:bg-slate-100"
                         >
@@ -69,7 +100,7 @@ export function MobileNav() {
                                 <li key={item.href}>
                                     <Link
                                         href={item.href}
-                                        onClick={closeMenu}
+                                        onClick={handleCloseMenu}
                                         className="flex items-center justify-between px-4 py-4 text-base font-medium text-slate-700 hover:text-slate-900 hover:bg-slate-50 rounded-lg transition-all duration-200 group border border-transparent hover:border-slate-100"
                                     >
                                         <span>{item.label}</span>
