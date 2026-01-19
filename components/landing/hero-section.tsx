@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Briefcase, Users, BookOpen } from "lucide-react";
+import { ArrowRight, BookOpen } from "lucide-react";
 
 interface HeroSectionProps {
     stats: {
@@ -54,27 +54,9 @@ export function HeroSection({ stats }: HeroSectionProps) {
                         </Button>
                     </div>
 
-                    {/* 주요 통계 (DB 데이터 연동) */}
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 w-full max-w-4xl">
-                        <div className="flex flex-col items-center p-8 bg-white/60 backdrop-blur-xl rounded-2xl border border-white/20 shadow-sm hover:shadow-md transition-all">
-                            <div className="p-3 bg-blue-100 rounded-full mb-4">
-                                <Briefcase className="h-6 w-6 text-primary" />
-                            </div>
-                            <div className="text-3xl font-bold text-slate-900 mb-1">
-                                {formatNumber(stats.verifiedJobs)}+
-                            </div>
-                            <div className="text-base text-slate-500 font-medium">검증된 일자리</div>
-                        </div>
-                        <div className="flex flex-col items-center p-8 bg-white/60 backdrop-blur-xl rounded-2xl border border-white/20 shadow-sm hover:shadow-md transition-all">
-                            <div className="p-3 bg-green-100 rounded-full mb-4">
-                                <Users className="h-6 w-6 text-green-600" />
-                            </div>
-                            <div className="text-3xl font-bold text-slate-900 mb-1">
-                                {formatNumber(stats.successfulReentries)}+
-                            </div>
-                            <div className="text-base text-slate-500 font-medium">성공적인 재취업</div>
-                        </div>
-                        <div className="flex flex-col items-center p-8 bg-white/60 backdrop-blur-xl rounded-2xl border border-white/20 shadow-sm hover:shadow-md transition-all">
+                    {/* 주요 통계 (누적 회원수) */}
+                    <div className="flex justify-center w-full max-w-4xl">
+                        <div className="flex flex-col items-center p-8 bg-white/60 backdrop-blur-xl rounded-2xl border border-white/20 shadow-sm hover:shadow-md transition-all min-w-[280px]">
                             <div className="p-3 bg-orange-100 rounded-full mb-4">
                                 <BookOpen className="h-6 w-6 text-orange-600" />
                             </div>
